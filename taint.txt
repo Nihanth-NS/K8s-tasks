@@ -1,0 +1,1 @@
+kubectl taint nodes node01 key1=val:NoExecute

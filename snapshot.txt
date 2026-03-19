@@ -1,0 +1,25 @@
+Install etcd_client
+export ETCDCTL_API=3 
+go to /etc/k8s/manifests and open etcd.yml file
+etcdctl --endpoints=<listen-client-url>
+        --cacert=<trusted-ca-file>
+        --cert=<cert-file>
+        --key=<key-file>
+    snapshot save <location with db extension>
+## this will save the snapshot
+etcdctl --endpoints=<listen-client-url>
+        --cacert=<trusted-ca-file>
+        --cert=<cert-file>
+        --key=<key-file>
+    snapshot restore <location with snapshot>
+        --data-dir=<location where to restore>
+and change the --data-dir in etcd.yml to new location we created
+and change the file location in volume mounts with etcd-data
+and also change volumes in hostPath.
+## this will restore from snapshot
+Restart the API server by going to /etc/k8s/manifests and use
+  sudo mv * /tmp
+  sudo mv /tmp/*.yml . --> this will restart api server.
+Restart the daemon and kubelet
+  sudo systemctl daemon-reload
+  sudo systemctl restart kubelet
